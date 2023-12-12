@@ -1,7 +1,7 @@
     import ReactApexChart from "react-apexcharts";
     import React, { useState, useEffect } from "react";
     import axios from "axios";
-
+    import {server} from "../../main"
     export const Countries = () => {
         const [chartData, setChartData] = useState({
             xaxisCategories: [],
@@ -9,7 +9,7 @@
         });
 
         useEffect(() => {
-            axios.get("http://localhost:3000/api/v1/sector/RegionInsights")
+            axios.get(`${server}/RegionInsights`)
                 .then(response => {
                     const sectors = response.data.sectors;
                     const xaxisCategories = sectors.map(sector => sector._id); // Use _id as x-axis categories

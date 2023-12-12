@@ -1,7 +1,7 @@
 import ReactApexChart from "react-apexcharts";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-    
+import {server} from "../../main"    
 
 
 export const Year = () => {
@@ -15,7 +15,7 @@ export const Year = () => {
 
     const fetchSectorRelevanceData = async (year) => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/v1/sector/sectorrelevance?year=${year}`);
+            const response = await axios.get(`${server}/sectorrelevance?year=${year}`);
             const relevanceData = response.data.relevanceData;
 
             const xaxisCategories = relevanceData.map((sector) => sector._id);

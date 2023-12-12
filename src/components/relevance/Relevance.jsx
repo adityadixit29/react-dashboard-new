@@ -2,7 +2,7 @@
 import ReactApexChart from "react-apexcharts";
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-
+import {server} from "../../main"
 
 const Relevance = () => {
     //comparing relevance of sector
@@ -13,7 +13,7 @@ const Relevance = () => {
     
       useEffect(() => {           
             // Extracting grouped data for chart
-            axios.get("http://localhost:3000/api/v1/sector/sectorvsrelevance")
+            axios.get(`${server}/sectorvsrelevance`)
             .then(response => {
               const sectors = response.data.sectors;
       

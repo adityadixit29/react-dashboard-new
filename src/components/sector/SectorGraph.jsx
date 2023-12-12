@@ -1,7 +1,7 @@
 import ReactApexChart from "react-apexcharts";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import {server} from "../../main"
 export const SectorGraph = () => {
   // sector - intensity vs likelihood
   const [chartData, setChartData] = useState({
@@ -12,7 +12,7 @@ export const SectorGraph = () => {
 
   useEffect(() => {
     // Extracting grouped data for chart
-    axios.get("http://localhost:3000/api/v1/sector/sectorvsintenvslike")
+    axios.get(`${server}/sectorvsintenvslike`)
       .then(response => {
         const sectors = response.data.sectors;
         //map function does xaxisCategories = ["Aerospace & defence", "Support services", /* ... */ ];
