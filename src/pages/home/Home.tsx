@@ -1,6 +1,3 @@
-import { Sector } from 'recharts'
-import ChartBox from '../../components/chartBox/ChartBox'
-
 import Countries from '../../components/countries/Countries'
 import Relevance from '../../components/relevance/Relevance'
 import SectorGraph from '../../components/sector/SectorGraph'

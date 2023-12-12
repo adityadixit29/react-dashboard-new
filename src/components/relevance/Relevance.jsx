@@ -1,5 +1,5 @@
 
-import Chart from "react-apexcharts";
+import ReactApexChart from "react-apexcharts";
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 
@@ -37,7 +37,7 @@ const Relevance = () => {
     <h2>Relevance - Relevance of different sectors</h2>
     <div className="container" style={{padding:"30px"}}>
         <div className="chart">
-          <Chart
+          <ReactApexChart
         options={{
           chart: {
             id: "basic-bar",

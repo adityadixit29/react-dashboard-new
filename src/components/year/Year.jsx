@@ -1,4 +1,4 @@
-import Chart from "react-apexcharts";
+import ReactApexChart from "react-apexcharts";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
     
@@ -66,7 +66,7 @@ export const Year = () => {
                     </select>
                 </div>
                 <div className="chart" style={{padding:"20px"}}>
-                    <Chart
+                    <ReactApexChart
                         options={{
                             chart: {
                                 id: "basic-bar",
