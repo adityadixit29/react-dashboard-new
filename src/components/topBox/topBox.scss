@@ -1,39 +1,212 @@
-.topBox{
-    h1{
+.topBox {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
         margin-bottom: 20px;
+        color: #ffffff;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: -0.025em;
     }
 
-    .list{
-        .listItem{
+    .list {
+        flex: 1;
+        overflow-y: auto;
+        padding-right: 8px;
+
+        .listItem {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 30px; 
-            .user{
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.06);
+                border-color: rgba(255, 255, 255, 0.12);
+                transform: translateY(-1px);
+            }
+
+            .user {
                 display: flex;
-                gap: 20px;
-                img{
-                    width: 40px;
-                    height: 40px;
+                gap: 12px;
+                align-items: center;
+
+                img {
+                    width: 36px;
+                    height: 36px;
                     border-radius: 50%;
                     object-fit: cover;
+                    border: 2px solid rgba(255, 255, 255, 0.1);
                 }
 
-                .userTexts{
+                .userTexts {
                     display: flex;
                     flex-direction: column;
-                    gap: 5px;
-                    .username{
-                        font-size: 14px;
-                        font-weight: 500;
+                    gap: 4px;
+
+                    .username {
+                        font-size: 13px;
+                        font-weight: 600;
+                        color: #ffffff;
+                        letter-spacing: -0.01em;
                     }
-                    .email{
-                        font-size: 12px;
+
+                    .email {
+                        font-size: 11px;
+                        color: rgba(255, 255, 255, 0.7);
+                        font-weight: 400;
                     }
                 }
             }
-            .amount{
-                font-weight: 500;
+
+            .amount {
+                font-weight: 600;
+                font-size: 13px;
+                color: #10b981;
+                letter-spacing: -0.01em;
+            }
+        }
+    }
+
+    // Custom scrollbar
+    .list::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .list::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 2px;
+    }
+
+    .list::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+    }
+
+    .list::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+    }
+}
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+    .topBox {
+        h1 {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .list {
+            .listItem {
+                margin-bottom: 12px;
+                padding: 12px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+
+                .user {
+                    gap: 12px;
+                    width: 100%;
+                    justify-content: flex-start;
+
+                    img {
+                        width: 36px;
+                        height: 36px;
+                        flex-shrink: 0;
+                    }
+
+                    .userTexts {
+                        flex: 1;
+                        min-width: 0;
+
+                        .username {
+                            font-size: 13px;
+                            font-weight: 600;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+
+                        .email {
+                            font-size: 11px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+
+                .amount {
+                    font-size: 13px;
+                    font-weight: 600;
+                    align-self: flex-end;
+                    margin-top: 4px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .topBox {
+        h1 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .list {
+            .listItem {
+                margin-bottom: 10px;
+                padding: 10px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+
+                .user {
+                    gap: 10px;
+                    flex: 1;
+                    min-width: 0;
+
+                    img {
+                        width: 32px;
+                        height: 32px;
+                        flex-shrink: 0;
+                    }
+
+                    .userTexts {
+                        flex: 1;
+                        min-width: 0;
+
+                        .username {
+                            font-size: 12px;
+                            font-weight: 600;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+
+                        .email {
+                            font-size: 10px;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+
+                .amount {
+                    font-size: 12px;
+                    font-weight: 600;
+                    flex-shrink: 0;
+                    margin-left: 8px;
+                }
             }
         }
     }

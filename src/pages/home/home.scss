@@ -1,34 +1,635 @@
 @import "../../styles/variables.scss";
-.home{
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(3,1fr);
-    grid-auto-rows: minmax(100%);
+
+.home-page {
+  min-height: 100vh;
+  background: $main-bg;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+// Error toast styles
+.error-toast {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  animation: slideDown 0.3s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+  
+  .error-spinner {
+    border-top-color: #ef4444 !important;
+  }
+  
+  .error-title {
+    color: #ef4444 !important;
+  }
+}
+
+// Loading toast styles (non-blocking)
+.loading-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.3s ease-out;
+  max-width: 400px;
+  width: calc(100% - 40px);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-spinner {
+  .spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top: 2px solid #10b981;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.toast-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast-title {
+  color: $main-color;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.toast-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
     
-    .box{
-        padding: 20px;
-        border-radius: 10px;
-        border: 2px solid $soft-bg;
-        background-color: $dark-bg;
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+      position: relative;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+        animation: shimmer 2s infinite;
+      }
+    }
+  }
+  
+  .progress-text {
+    color: #10b981;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 32px;
+    text-align: right;
+  }
+}
+
+// Animations
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes fadeOut {
+  0% { 
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% { 
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+}
+
+.page-header {
+  padding: 32px 24px 24px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  
+  .page-title {
+    color: $main-color;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1.2;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .page-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+}
+
+.home {
+  padding: 24px;
+  min-height: 100vh;
+  background: $main-bg;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(320px, auto);
+  
+  .box {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
-    .box1{
-        grid-column: span 1;
-        grid-row: span 4;
+    // Ensure all content fits within the box
+    * {
+      max-width: 100%;
+      box-sizing: border-box;
     }
-    .box4{
-        grid-column: span 1;
-        grid-row: span 3;
+
+    // Chart containers should be responsive
+    .chart, canvas, svg {
+      max-width: 100% !important;
+      width: 100% !important;
+      height: auto !important;
     }
-    .box5{
-        grid-column: span 2;
-        grid-row: span 3;
+
+    // Ensure ApexChart takes full width
+    .apexcharts-canvas {
+      width: 100% !important;
     }
-    .box6{
-        grid-column: span 3;
-        grid-row: span 3;
-        display: flex;
-        justify-content: center;
+
+    // Force full width for chart containers
+    .chart > div {
+      width: 100% !important;
+    }
+  }
+
+  .box1 {
+    // Top Earners - spans 2 rows, takes 1 column
+    grid-column: 1 / 5; // columns 1-4 (1 column)
+    grid-row: 1 / 3; // rows 1-2 (spans 2 rows)
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(139, 92, 246, 0.04));
+    border-color: rgba(79, 70, 229, 0.15);
+  }
+
+  .box2 {
+    // Year chart - first row, second position (1 column)
+    grid-column: 5 / 9; // columns 5-8 (1 column)
+    grid-row: 1 / 2; // row 1 only
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(34, 197, 94, 0.04));
+    border-color: rgba(16, 185, 129, 0.15);
+  }
+
+  .box3 {
+    // Relevance chart - first row, third position (1 column)
+    grid-column: 9 / 13; // columns 9-12 (1 column)
+    grid-row: 1 / 2; // row 1 only
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.04));
+    border-color: rgba(245, 158, 11, 0.15);
+  }
+
+  .box5 {
+    // SectorGraph - second row, takes remaining 2 columns
+    grid-column: 5 / 13; // columns 5-12 (2 columns)
+    grid-row: 2 / 3; // row 2 only
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(96, 165, 250, 0.04));
+    border-color: rgba(59, 130, 246, 0.15);
+  }
+
+  .box6 {
+    // Countries chart - fourth row, spans full width
+    grid-column: span 12;
+    grid-row: span 1;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(167, 139, 250, 0.04));
+    border-color: rgba(139, 92, 246, 0.15);
+  }
+
+  // Enhanced typography for all content inside boxes
+  h1, h2, h3, h4, h5, h6 {
+    color: $main-color;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  p, span, div {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 400;
+    line-height: 1.4;
+  }
+
+  // Enhanced scrollbars
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  // Enhanced focus states
+  button, input, select, textarea {
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.3);
+    }
+  }
+
+  // Enhanced button styles
+  button {
+    transition: all 0.2s ease;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Enhanced input styles
+  input, select, textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: $main-color;
+    transition: all 0.2s ease;
+
+    &:focus {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(79, 70, 229, 0.4);
+    }
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  // Enhanced table styles
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    th {
+      font-weight: 600;
+      color: $main-color;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    td {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+  }
+
+  // Enhanced list styles
+  ul, ol {
+    padding-left: 18px;
+
+    li {
+      margin-bottom: 6px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+  }
+
+  // Enhanced card styles for any card-like content
+  .card, .item, .listItem {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 8px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Enhanced chart container styles
+  .chart, .graph, canvas, svg {
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  // Enhanced loading states
+  .loading, .spinner {
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+  }
+
+  // Enhanced error states
+  .error {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    padding: 10px;
+  }
+
+  // Enhanced success states
+  .success {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 6px;
+    padding: 10px;
+  }
+
+  // Enhanced warning states
+  .warning {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 6px;
+    padding: 10px;
+  }
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .home {
+    grid-template-columns: repeat(8, 1fr);
+    
+    .box1 {
+      grid-column: 1 / 3; // columns 1-2
+      grid-row: 1 / 3; // rows 1-2
     }
     
+    .box2 {
+      grid-column: 3 / 5; // columns 3-4
+      grid-row: 1 / 2; // row 1 only
+    }
+    
+    .box3 {
+      grid-column: 5 / 7; // columns 5-6
+      grid-row: 1 / 2; // row 1 only
+    }
+    
+    .box5 {
+      grid-column: 3 / 9; // columns 3-8 (2 columns)
+      grid-row: 2 / 3; // row 2 only
+    }
+    
+    .box6 {
+      grid-column: span 8;
+      grid-row: span 1;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .home {
+    padding: 20px;
+    gap: 16px;
+    
+    .box1 {
+      grid-column: 1 / 3; // columns 1-2
+      grid-row: 1 / 3; // rows 1-2
+    }
+    
+    .box2 {
+      grid-column: 3 / 7; // columns 3-6
+      grid-row: 1 / 2; // row 1 only
+    }
+    
+    .box3 {
+      grid-column: 7 / 13; // columns 7-12
+      grid-row: 1 / 2; // row 1 only
+    }
+    
+    .box5 {
+      grid-column: 3 / 13; // columns 3-12
+      grid-row: 2 / 3; // row 2 only
+    }
+    
+    .box6 {
+      grid-column: 1 / 13; // columns 1-12
+      grid-row: 3 / 4; // row 3 only
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .loading-toast {
+    top: 16px;
+    padding: 12px 16px;
+    max-width: 350px;
+  }
+  
+  .toast-spinner .spinner {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .toast-title {
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+  }
+  
+  .toast-progress .progress-text {
+    font-size: 0.75rem;
+  }
+  
+  .page-header {
+    padding: 24px 16px 20px 16px;
+    
+    .page-title {
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+    }
+    
+    .page-subtitle {
+      font-size: 0.9rem;
+    }
+  }
+  
+  .home {
+    padding: 16px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    
+    .box {
+      grid-column: 1 !important;
+      grid-row: auto !important;
+      padding: 16px;
+      min-height: 280px;
+    }
+    
+    // Ensure charts are responsive on mobile
+    .chart, canvas, svg {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-toast {
+    top: 12px;
+    padding: 10px 14px;
+    max-width: 300px;
+  }
+  
+  .toast-spinner .spinner {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .toast-title {
+    font-size: 0.8rem;
+    margin-bottom: 3px;
+  }
+  
+  .toast-progress .progress-text {
+    font-size: 0.7rem;
+  }
+  
+  .page-header {
+    padding: 20px 12px 16px 12px;
+    
+    .page-title {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+    
+    .page-subtitle {
+      font-size: 0.85rem;
+    }
+  }
+  
+  .home {
+    padding: 12px;
+    gap: 12px;
+    
+    .box {
+      padding: 14px;
+      min-height: 250px;
+    }
+    
+    // Smaller text on very small screens
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 1rem !important;
+      margin-bottom: 12px !important;
+    }
+    
+    p, span, div {
+      font-size: 0.9rem !important;
+    }
+  }
 }

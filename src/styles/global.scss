@@ -6,7 +6,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+body{
+  background: $main-bg;
+}
 a {
   text-decoration: none;
   color: inherit;
@@ -20,6 +22,7 @@ a {
 
 .container{
   display: flex;
+  margin-top: 10px;
 }
 
 .menuContainer{

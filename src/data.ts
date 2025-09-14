@@ -12,7 +12,7 @@ export const menu = [
       {
         id: 2,
         title: "Profile",
-        url: "/",
+        url: "/profile",
         icon: "user.svg",
       },
     ],
@@ -24,25 +24,25 @@ export const menu = [
       {
         id: 1,
         title: "Users",
-        url: "/",
+        url: "/users",
         icon: "user.svg",
       },
       {
         id: 2,
         title: "Products",
-        url: "/",
+        url: "/products",
         icon: "product.svg",
       },
       {
         id: 3,
         title: "Orders",
-        url: "/",
+        url: "/orders",
         icon: "order.svg",
       },
       {
         id: 4,
         title: "Posts",
-        url: "/",
+        url: "/posts",
         icon: "post2.svg",
       },
     ],
@@ -52,27 +52,15 @@ export const menu = [
     title: "general",
     listItems: [
       {
-        id: 1,
-        title: "Elements",
-        url: "/",
-        icon: "element.svg",
-      },
-      {
         id: 2,
         title: "Notes",
-        url: "/",
+        url: "/notes",
         icon: "note.svg",
-      },
-      {
-        id: 3,
-        title: "Forms",
-        url: "/",
-        icon: "form.svg",
       },
       {
         id: 4,
         title: "Calendar",
-        url: "/",
+        url: "/calendar",
         icon: "calendar.svg",
       },
     ],
@@ -84,15 +72,9 @@ export const menu = [
       {
         id: 1,
         title: "Settings",
-        url: "/",
+        url: "/settings",
         icon: "setting.svg",
-      },
-      {
-        id: 2,
-        title: "Backups",
-        url: "/",
-        icon: "backup.svg",
-      },
+      }
     ],
   },
   {
@@ -102,13 +84,13 @@ export const menu = [
       {
         id: 1,
         title: "Charts",
-        url: "/",
+        url: "/charts",
         icon: "chart.svg",
       },
       {
         id: 2,
         title: "Logs",
-        url: "/",
+        url: "/logs",
         icon: "log.svg",
       },
     ],
